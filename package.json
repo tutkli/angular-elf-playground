@@ -21,6 +21,11 @@
     "@angular/platform-browser": "14.2.5",
     "@angular/platform-browser-dynamic": "14.2.5",
     "@angular/router": "14.2.5",
+    "@ngneat/elf": "2.1.0",
+    "@ngneat/elf-entities": "4.4.2",
+    "@ngneat/elf-pagination": "1.0.1",
+    "@ngneat/elf-persist-state": "1.1.6",
+    "@ngneat/elf-requests": "1.1.4",
     "rxjs": "7.5.7",
     "tslib": "2.4.0",
     "zone.js": "0.11.8"
