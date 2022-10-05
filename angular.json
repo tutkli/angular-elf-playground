@@ -7,7 +7,22 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "prefix": "app",
+          "style": "scss",
+          "standalone": true,
+          "changeDetection": "OnPush",
+          "flat": false
+        },
+        "@schematics/angular:directive": {
+          "prefix": "app",
+          "standalone": true,
+          "flat": false,
+          "path": "src/app/shared/directives"
+        },
+        "@schematics/angular:pipe": {
+          "standalone": true,
+          "flat": false,
+          "path": "src/app/shared/pipes"
         }
       },
       "root": "",
@@ -29,7 +44,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.scss"
+              "src/styles/styles.scss"
             ],
             "scripts": []
           },
@@ -98,7 +113,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.scss"
+              "src/styles/styles.scss"
             ],
             "scripts": []
           }
