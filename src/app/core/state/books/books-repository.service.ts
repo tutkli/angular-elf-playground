@@ -3,32 +3,38 @@ import { Book } from '../../model/book.model';
 import { createStore, propsArrayFactory, Store } from '@ngneat/elf';
 import { selectAllEntities, selectEntities, setEntities, withEntities } from '@ngneat/elf-entities';
 import { map, withLatestFrom } from 'rxjs';
+import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state';
 
 const { withCollectionIds, selectCollectionIds, addCollectionIds, removeCollectionIds, inCollectionIds } =
   propsArrayFactory('collectionIds', { initialValue: [] as string[] });
 
+const bookStore: Store = createStore({ name: 'books' }, withEntities<Book>(), withCollectionIds());
+
+export const persist = persistState(bookStore, {
+  key: 'books',
+  storage: localStorageStrategy,
+});
+
 @Injectable({ providedIn: 'root' })
 export class BooksRepositoryService {
-  private readonly _store: Store = createStore({ name: 'books' }, withEntities<Book>(), withCollectionIds());
+  books$ = bookStore.pipe(selectAllEntities());
 
-  books$ = this._store.pipe(selectAllEntities());
-
-  ownBooks$ = this._store.pipe(selectCollectionIds()).pipe(
-    withLatestFrom(this._store.pipe(selectEntities())),
+  ownBooks$ = bookStore.pipe(selectCollectionIds()).pipe(
+    withLatestFrom(bookStore.pipe(selectEntities())),
     map(([ids, books]) => ids.map((id) => books[id]))
   );
 
   setBooks(books: Book[]) {
-    this._store.update(setEntities(books));
+    bookStore.update(setEntities(books));
   }
 
   removeFromCollection(bookId: string) {
-    this._store.update(removeCollectionIds(bookId));
+    bookStore.update(removeCollectionIds(bookId));
   }
 
   addToCollection(bookId: string) {
-    if (!this._store.query(inCollectionIds(bookId))) {
-      this._store.update(addCollectionIds(bookId));
+    if (!bookStore.query(inCollectionIds(bookId))) {
+      bookStore.update(addCollectionIds(bookId));
     }
   }
 }

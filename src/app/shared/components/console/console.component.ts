@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { BooksRepositoryService } from '../../../core/state/books/books-repository.service';
 import { ToJsonPipe } from '../../pipes/to-json/to-json.pipe';
 
 @Component({
@@ -12,9 +11,30 @@ import { ToJsonPipe } from '../../pipes/to-json/to-json.pipe';
   styleUrls: ['./console.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConsoleComponent {
+export class ConsoleComponent implements OnInit {
+  booksStorage: unknown;
+
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<ConsoleComponent>,
-    public bookRepositoryService: BooksRepositoryService
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
+
+  @HostListener('window.storage', ['$event'])
+  onStorageUpdate(event: StorageEvent) {
+    if (event.storageArea === localStorage) {
+      this.updateConsoleValue();
+    }
+  }
+
+  ngOnInit(): void {
+    this.updateConsoleValue();
+  }
+
+  private updateConsoleValue(): void {
+    const booksStorage: string | null = localStorage.getItem('books');
+    if (booksStorage !== null) {
+      this.booksStorage = JSON.parse(booksStorage);
+      this.changeDetectorRef.detectChanges();
+    }
+  }
 }
