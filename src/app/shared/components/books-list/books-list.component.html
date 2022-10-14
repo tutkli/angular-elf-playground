@@ -1,0 +1,14 @@
+<section class="book-list-container" fxLayout="column" fxLayoutGap="1em">
+  <h2>Books</h2>
+  <mat-card *ngFor="let book of books" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <em>ID: {{ book.id }}</em>
+      <p><strong>{{ book.volumeInfo.title }}</strong> by {{ book.volumeInfo.authors }}</p>
+    </div>
+    <button mat-icon-button color="accent" (click)="addBook.emit(book.id)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-card>
+</section>
+
+

@@ -13,6 +13,9 @@
           "changeDetection": "OnPush",
           "flat": false
         },
+        "@schematics/angular:service": {
+          "flat": false
+        },
         "@schematics/angular:directive": {
           "prefix": "app",
           "standalone": true,

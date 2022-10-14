@@ -1,1 +1,20 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+    <h1>Angular Elf Playground</h1>
+    <button mat-button color="accent" (click)="openConsole()">Open Console</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<main fxLayout="row" fxLayoutGap="2em">
+  <app-books-list fxFlex="50"
+                  [books]="booksRepositoryService.books$ | async"
+                  (addBook)="booksRepositoryService.addToCollection($event)"></app-books-list>
+
+  <app-books-collection fxFlex="50"
+                        [books]="booksRepositoryService.ownBooks$ | async"
+                        (removeBook)="booksRepositoryService.removeFromCollection($event)"></app-books-collection>
+</main>
+
+
+
 

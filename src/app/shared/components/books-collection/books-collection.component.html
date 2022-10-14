@@ -1,0 +1,12 @@
+<section fxLayout="column" fxLayoutGap="1em">
+  <h2>Collection</h2>
+  <mat-card *ngFor="let book of books" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <em>ID: {{ book.id }}</em>
+      <p><strong>{{ book.volumeInfo.title }}</strong> by {{ book.volumeInfo.authors }}</p>
+    </div>
+    <button mat-icon-button color="accent" (click)="removeBook.emit(book.id)">
+      <mat-icon>remove</mat-icon>
+    </button>
+  </mat-card>
+</section>
